@@ -16,9 +16,9 @@ namespace Movies.DataAccess.Repository
         public UnitOfWork (ApplicationDbContent context)
         {
             _context = context;
-            ImovieRepository = new MovieRepository(_context);
+            movie = new MovieRepository(_context);
         }
-        public ImovieRepository ImovieRepository { get; private set; }
+        public ImovieRepository movie{ get; private set; }
         public void save()
         {
            _context.SaveChanges();

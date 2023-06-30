@@ -8,7 +8,7 @@ namespace Movies.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-        ImovieRepository ImovieRepository { get; }
+        ImovieRepository movie { get; }
 
         void save();
     }

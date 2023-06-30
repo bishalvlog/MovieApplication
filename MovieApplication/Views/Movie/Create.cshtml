@@ -1,0 +1,43 @@
+﻿@model Movies.Model.VM.MovieVM;
+
+<form method="post" asp-action="Create" asp-controller="Movie" enctype="multipart/form-data">
+<input asp-for="movie.Id" hidden/>
+    <input asp-for="movie.Imageurl" hidden />
+<div class="row">
+    <div class="col-10">
+        <div class="border p-3 mt-4">
+           @* <div class="row pb-2">
+                <h2 class="text-primary">@(Model.movie.Id!=0? "Update" :"Create")Movie</h2>
+            </div>*@
+        </div>
+            <div class="mb-3">
+                <label asp-for="movie.Title"></label>
+                <input asp-for="movie.Title" rows="3" class="form-control" />
+                <span asp-validation-for="movie.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="movie.Description"></label>
+                <input asp-for="movie.Description" rows="3" class="form-control" />
+                <span asp-validation-for="movie.Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="movie.Price"></label>
+                <input asp-for="movie.Price" rows="3" class="form-control" />
+                <span asp-validation-for="movie.Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="movie.DateOfRelease"></label>
+                <input asp-for="movie.DateOfRelease" rows="3" class="form-control" />
+                <span asp-validation-for="movie.DateOfRelease" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="movie.Imageurl"></label>
+                <input type="file" asp-for="movie.Imageurl" name="Image" id="uploadbox" class="form-control" accept="image/png, image/gif, image/jpeg" />
+            </div>
+    </div>
+    <div class="col-12">
+            <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+    </div>
+
+</div>
+</form>

@@ -13,7 +13,7 @@ namespace Movies.DataAccess.Repository
         public Repository(ApplicationDbContent context)
         {
             _context = context;
-            this.dbset =_context.Set<T>();
+            dbset =_context.Set<T>();
         }
 
         public void Add(T entity)

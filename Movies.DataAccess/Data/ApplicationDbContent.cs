@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieApplication.Models;
 
 namespace Movies.DataAccess.Data
 {
-    public class ApplicationDbContent : DbContext
+    public class ApplicationDbContent : IdentityDbContext
     {
         public ApplicationDbContent(DbContextOptions<ApplicationDbContent> options) :base (options)
         {
@@ -19,6 +20,8 @@ namespace Movies.DataAccess.Data
                  .HasMany(movie => movie.details)
                  .WithOne(detail => detail.movies)
                  .HasForeignKey(detail => detail.Id);
+
+            base.OnModelCreating(modelBuilder);
         }
 
     }
