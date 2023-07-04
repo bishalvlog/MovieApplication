@@ -30,8 +30,13 @@ namespace Movies.DataAccess.Repository
                 moviesdb.Description =movie.Description;
                 moviesdb.Price = movie.Price;
                // moviesdb.details = movie.details;
-                moviesdb.DateOfRelease= movie.DateOfRelease;    
-                moviesdb.Imageurl = movie.Imageurl; 
+                moviesdb.DateOfRelease= movie.DateOfRelease; 
+                if(moviesdb.Imageurl  != null)
+                {
+                    moviesdb.Imageurl = movie.Imageurl;
+
+                }
+               
             }
         }
     }

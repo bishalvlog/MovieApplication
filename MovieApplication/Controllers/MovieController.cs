@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieApplication.Models;
 using Movies.DataAccess.Repository.IRepository;
 using Movies.Model.VM;
@@ -15,28 +16,50 @@ namespace MovieApplication.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
         // GET: MovieController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var movielist = _unitOfWork.movie.GetAll().ToList();
             return View(movielist);
         }
 
         // GET: MovieController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: MovieController/Create
-        public IActionResult Create()
+        // GET: M
+        // ovieController/Create
+        [HttpGet]
+        public IActionResult Create(int? Id)
         {
-            return View();
-        }
+           
+            MovieVM movieVM = new()
+            {
+                
+            MovieList = _unitOfWork.movie.GetAll().Select(c=> new SelectListItem
+                {
+                    Text =c.Title,
+                    Value=c.Id.ToString()
+                }),
+                Movies = new movie()
 
+            };
+
+            if (Id == null || Id == 0)
+            {
+                return View(movieVM);
+            }
+            else
+            {
+                movieVM.Movies = _unitOfWork.movie.GetFirstordefault(u => u.Id == Id);
+                return View(movieVM);
+            }
+        }
         // POST: MovieController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MovieVM movieVM,IFormFile? formFile)
+        public IActionResult Create(MovieVM movieVM, IFormFile? formFile)
         {
             if (ModelState.IsValid)
             {
@@ -47,16 +70,36 @@ namespace MovieApplication.Controllers
                     string filename =Guid.NewGuid().ToString();
                     var upload =Path.Combine(wwwRootPath, @"\Images\");
                     var extension =Path.GetExtension(formFile.FileName);
+                    if(movieVM.Movies.Imageurl != null)
+                    {
+                        var oldpath =Path.Combine(wwwRootPath,movieVM.Movies.Imageurl.TrimEnd('/'));
+                        if (System.IO.File.Exists(oldpath))
+                        {
+                            System.IO.File.Delete(oldpath);
+                        }
+                    }
 
                     using (var filestreams = new FileStream(Path.Combine(upload, filename + extension), FileMode.Create))
                     {
                         formFile.CopyTo(filestreams);
 
                     }
+                    movieVM.Movies.Imageurl = filename + extension;
                 }
-                _unitOfWork.movie.Add(movieVM.movie);
-                TempData["create"] = "movie add successfully";
+                if(movieVM.Movies.Id == 0)
+                {
+                    _unitOfWork.movie.Add(movieVM.Movies);
+                    TempData["create"] = "movie add successfully";
+                   
+
+                }
+                else
+                {
+                    _unitOfWork.movie.update(movieVM.Movies);
+                    TempData["edit"] = "update movie successfully";
+                }
                 _unitOfWork.save();
+
                 return RedirectToAction("Index");
             }
             return View(movieVM);
@@ -64,7 +107,7 @@ namespace MovieApplication.Controllers
         }
 
         // GET: MovieController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             return View();
         }
@@ -72,7 +115,7 @@ namespace MovieApplication.Controllers
         // POST: MovieController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
@@ -85,7 +128,7 @@ namespace MovieApplication.Controllers
         }
 
         // GET: MovieController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             return View();
         }
@@ -93,7 +136,7 @@ namespace MovieApplication.Controllers
         // POST: MovieController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id, IFormCollection collection)
         {
             try
             {

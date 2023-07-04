@@ -1,11 +1,6 @@
-﻿using MovieApplication.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using Movies.DataAccess.Data;
 using Movies.DataAccess.Repository.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Movies.DataAccess.Repository
 {
@@ -21,7 +16,18 @@ namespace Movies.DataAccess.Repository
         public ImovieRepository movie{ get; private set; }
         public void save()
         {
-           _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+
+            }
+            catch(DbUpdateException ex)
+            {
+                var  InerException = ex.InnerException;
+                var errorMessage = InerException.Message;
+
+            }
+          
         }
     }
 }

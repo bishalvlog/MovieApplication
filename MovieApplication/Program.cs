@@ -11,6 +11,9 @@ builder.Services.AddDbContext<ApplicationDbContent>(options => options.UseSqlSer
 (builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
