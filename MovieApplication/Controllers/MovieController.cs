@@ -25,7 +25,12 @@ namespace MovieApplication.Controllers
         // GET: MovieController/Details/5
         public IActionResult Details(int id)
         {
-            return View();
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var details = _unitOfWork.movie.GetFirstordefault(u => u.Id == id);
+            return View(details);
         }
 
         // GET: M
@@ -128,9 +133,15 @@ namespace MovieApplication.Controllers
         }
 
         // GET: MovieController/Delete/5
+        [HttpGet]
         public IActionResult Delete(int id)
         {
-            return View();
+            if(id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var deletes = _unitOfWork.movie.GetFirstordefault(u => u.Id == id);
+            return View(deletes);
         }
 
         // POST: MovieController/Delete/5

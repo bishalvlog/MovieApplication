@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Movies.DataAccess.Data;
 using Movies.DataAccess.Repository;
 using Movies.DataAccess.Repository.IRepository;
@@ -29,6 +30,13 @@ app.UseStaticFiles();
 app.MapRazorPages();
 
 app.UseRouting();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(@"E:\Images")),
+    RequestPath = "/Images"
+});
+
 
 app.UseAuthorization();
 
