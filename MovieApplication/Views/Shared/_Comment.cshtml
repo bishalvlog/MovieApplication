@@ -1,0 +1,12 @@
+﻿@model  List<Movies.Model.Models.Comments>
+<h1>Drop Ur Comments</h1>
+<form method="post" asp-action="_Comment" asp-controller="Movie">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <label>Comments</label>
+            <input  class="form-control"/>
+            <button type="button" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>

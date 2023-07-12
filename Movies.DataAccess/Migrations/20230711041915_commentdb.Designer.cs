@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies.DataAccess.Data;
 
@@ -11,9 +12,10 @@ using Movies.DataAccess.Data;
 namespace Movies.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContent))]
-    partial class ApplicationDbContentModelSnapshot : ModelSnapshot
+    [Migration("20230711041915_commentdb")]
+    partial class commentdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

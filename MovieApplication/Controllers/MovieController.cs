@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieApplication.Models;
 using Movies.DataAccess.Repository.IRepository;
 using Movies.Model.VM;
+using NuGet.Protocol.Plugins;
 
 namespace MovieApplication.Controllers
 {
@@ -10,10 +11,12 @@ namespace MovieApplication.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IWebHostEnvironment _webHostEnvironment;
+        private IConfiguration _configuration;
+        string cs;
         public MovieController (IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
-            _webHostEnvironment = webHostEnvironment;
+            cs = _configuration.GetConnectionString("Default");
         }
         // GET: MovieController
         public IActionResult Index()
@@ -29,8 +32,19 @@ namespace MovieApplication.Controllers
             {
                 return NotFound();
             }
-            var details = _unitOfWork.movie.GetFirstordefault(u => u.Id == id);
-            return View(details);
+            movie moviedetails = _unitOfWork.movie.GetFirstordefault(u => u.Id == id);
+
+            if(moviedetails ==null)
+            {
+                return NotFound();
+
+            } 
+            else
+            {
+                return View(moviedetails);
+            }
+         
+            return View(Details);
         }
 
         // GET: M
@@ -111,27 +125,6 @@ namespace MovieApplication.Controllers
            
         }
 
-        // GET: MovieController/Edit/5
-        public IActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: MovieController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: MovieController/Delete/5
         [HttpGet]
         public IActionResult Delete(int id)
@@ -147,16 +140,48 @@ namespace MovieApplication.Controllers
         // POST: MovieController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id, IFormCollection collectio)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                movie moviedelete = _unitOfWork.movie.GetFirstordefault(u=>u.Id == id);
+                if(moviedelete == null)
+                {
+                    return NotFound();
+                }
+                _unitOfWork.movie.Remove(moviedelete);
+                _unitOfWork.save();
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
-            }
+
+            }       
+                
         }
+        [HttpPost]
+        public IActionResult _Comment( int id)
+        {
+            if (ModelState.IsValid)
+            {
+                if(id==null || id == 0)
+                {
+                    return NotFound();
+
+                }
+                else
+                {
+                    _unitOfWork.save();
+                    return RedirectToAction("Index");
+                }
+
+            }
+
+
+            return NotFound();
+        }
+            
+        
     }
 }

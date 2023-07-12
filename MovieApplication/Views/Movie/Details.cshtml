@@ -1,4 +1,4 @@
-﻿@model Movies.Model.VM.MovieVM
+﻿@model movie
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,38 +6,38 @@
 <h1>Details</h1>
 <div>
     <h4>Detail of Movies</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             <dd>
-                <img src="@Model.Movies.Imageurl" style="width: 220px; height: 230px;" />
+            <img src="\Images\@Model.Imageurl" width="100" style="border-radius:5px; border:1px solid #bbb9b9"  />
             </dd>
         </dt>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Movies.Title)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Movies.Title)
+            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Movies.Description)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Movies.Description)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Movies.Price)
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Movies.Price)
+            @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Movies.DateOfRelease)
+            @Html.DisplayNameFor(model => model.DateOfRelease)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Movies.DateOfRelease)
+            @Html.DisplayFor(model => model.DateOfRelease)
         </dd>
-    </dl>
+    </dl mt=4>
+    <partial  name="_Comment"/>
 </div>
 <div>
     <a class="btn btn-outline-dark btn-sm" asp-action="Index">Back to List</a>

@@ -12,8 +12,11 @@ namespace Movies.DataAccess.Repository
         {
             _context = context;
             movie = new MovieRepository(_context);
+            comment = new CommentRepository(_context);
         }
         public ImovieRepository movie{ get; private set; }
+
+        public IComment comment { get; private set; }
         public void save()
         {
             try

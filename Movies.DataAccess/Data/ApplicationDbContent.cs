@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieApplication.Models;
+using Movies.Model.Models;
 
 namespace Movies.DataAccess.Data
 {
@@ -13,6 +14,7 @@ namespace Movies.DataAccess.Data
        public DbSet<movie> movies { get; set; }  
        public DbSet<moviecost>moviecosts { get; set; }    
        public DbSet<moviedetails>moviedetails { get; set; }
+        public DbSet<Comments> comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
